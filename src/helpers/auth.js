@@ -1,4 +1,4 @@
-import { ref, firebaseAuth } from '../config/constants'
+import { ref, firebaseAuth, provider } from '../config/constants'
 
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
@@ -12,6 +12,24 @@ export function logout () {
 
 export function login (email, pw) {
   return firebaseAuth().signInWithEmailAndPassword(email, pw)
+  .catch((error) => {
+      console.log(error)
+  })
+}
+
+export function fbLogin () {
+  return firebaseAuth().signInWithPopup(provider)
+  .then((result) => {
+     let token = result.credential.accessToken,
+         user  = result.user;
+  })
+  .catch((error) => {
+      console.log(error)
+  })
+}
+
+export function checkAuth() {
+  return firebaseAuth().signOut()
 }
 
 export function saveUser (user) {
